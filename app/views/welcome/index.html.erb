@@ -1,2 +1,15 @@
-<h1>Welcome#index</h1>
-<p>Find me in app/views/welcome/index.html.erb</p>
+<br>
+<br>
+<br>
+<div class="jumbotron">
+  <h1>Blocipedia</h1>
+  <p>Blocipedia is a resource for collaborating on wikis.</p>
+  <p>
+    <% if current_user %>
+      <%= current_user.username %> - <%= link_to "Sign Out", session_path(current_user), method: :delete %>
+    <% else %>
+      <%= link_to "Sign In", new_session_path %> or
+      <%= link_to "Sign Up", new_user_path %>
+    <% end %>
+  </p>
+</div>

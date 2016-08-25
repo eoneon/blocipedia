@@ -25,7 +25,7 @@ gem 'devise'
 
 group :development, :test do
   gem 'byebug'
-  gem 'web-console', '~> 2.0'
+  # gem 'web-console', '~> 2.0'
   gem 'rspec-rails', '~> 3.0'
   gem 'shoulda'
   gem 'factory_girl_rails', '~> 4.0'
