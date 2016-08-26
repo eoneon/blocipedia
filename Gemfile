@@ -23,6 +23,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'figaro', '1.0'
 gem 'devise'
 gem 'pundit'
+gem 'stripe'
 
 group :development, :test do
   gem 'byebug'
