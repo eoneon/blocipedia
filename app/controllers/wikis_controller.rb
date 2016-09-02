@@ -1,4 +1,5 @@
 class WikisController < ApplicationController
+
   def index
     @wikis = Wiki.all
   end
@@ -9,11 +10,13 @@ class WikisController < ApplicationController
 
   def new
     @wiki = Wiki.new
+    authorize(@wiki)
   end
 
   def create
     @wiki = Wiki.new(wiki_params)
     @wiki.user = current_user
+    authorize(@wiki)
 
     if @wiki.save
       flash[:notice] = "Wiki was saved successfully."
@@ -44,6 +47,9 @@ class WikisController < ApplicationController
   def destroy
     @wiki = Wiki.find(params[:id])
 
+    # raise Pundit::NotAuthorizedError unless WikiPolicy.new(current_user, @wiki).destroy?
+    authorize(@wiki)
+
     if @wiki.destroy
       flash[:notice] = "\"#{@wiki.title}\" was deleted successfully."
       redirect_to @wiki
@@ -56,6 +62,6 @@ class WikisController < ApplicationController
   private
 
   def wiki_params
-    params.require(:wiki).permit(:title, :body)
+    params.require(:wiki).permit(:title, :body, :private)
   end
 end

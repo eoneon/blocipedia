@@ -12,4 +12,10 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.permit(:sign_up, keys: [:username])
     devise_parameter_sanitizer.permit(:account_update, keys: [:username])
   end
+
+  rescue_from Pundit::NotAuthorizedError do
+    flash[:alert] = "you're not allowed to do that"
+    redirect_to :back
+  end
+
 end

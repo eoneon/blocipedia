@@ -13,4 +13,5 @@ class User < ActiveRecord::Base
   def init
     self.role  ||= :standard  #will set the default value only if it's nil
   end
+
 end
