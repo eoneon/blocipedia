@@ -21,6 +21,8 @@
 
         <% if user_signed_in? && current_user.role == "standard" %>
           | <%= link_to "Updgrade to Premium", new_charge_path %>
+        <% elsif user_signed_in? && current_user.role == "premium" %>
+          | <%= link_to "Downgrade to Standard", new_charge_path %>
         <% end %>
 
         <% if not user_signed_in? %>

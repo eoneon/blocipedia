@@ -7,7 +7,7 @@
   <p>
     <% if current_user %>
       <%= current_user.username %> - <%= link_to "Sign Out", session_path(current_user), method: :delete %> <br>
-      <%= current_user.role %>
+      <%= current_user.role %> 
     <% else %>
       <%= link_to "Sign In", new_session_path %> or
       <%= link_to "Sign Up", new_user_path %>
