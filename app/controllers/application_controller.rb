@@ -25,7 +25,7 @@ class ApplicationController < ActionController::Base
     user.role = :premium
 
     if user.save
-      flash[:notice] = "Your account has been successfully upgraded to premium!"
+      flash[:notice] = "Your account has been successfully upgraded to premium! #{@charge.id}"
     end
   end
 

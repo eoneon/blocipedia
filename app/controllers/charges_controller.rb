@@ -10,14 +10,16 @@ class ChargesController < ApplicationController
       card: params[:stripeToken]
     )
 
-    charge = Stripe::Charge.create(
+    @charge = Stripe::Charge.create(
       customer: customer.id,
       amount: Amount.default,
       description: "BigMoney Membership - #{current_user.email}",
       currency: 'usd'
     )
 
-    flash[:notice] = "Thanks for all the money, #{current_user.email}! Feel free to pay me again -> #{charge.id}."
+    @charges = Stripe::Charge.list()
+
+    flash[:notice] = "Thanks for all the money, #{current_user.email}! Feel free to pay me again."
     redirect_to :back
     # redirect_to user_path(current_user)
 
