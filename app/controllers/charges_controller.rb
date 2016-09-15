@@ -17,8 +17,6 @@ class ChargesController < ApplicationController
       currency: 'usd'
     )
 
-    @charges = Stripe::Charge.list()
-
     flash[:notice] = "Thanks for all the money, #{current_user.email}! Feel free to pay me again."
     redirect_to :back
     # redirect_to user_path(current_user)
