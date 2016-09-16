@@ -5,21 +5,21 @@ class ChargesController < ApplicationController
 
   def create
     # create a Stripe Customer object, for associating
-    customer = Stripe::Customer.create(
+    @customer = Stripe::Customer.create(
       email: current_user.email,
       card: params[:stripeToken]
     )
 
     @charge = Stripe::Charge.create(
-      customer: customer.id,
+      customer: @customer.id,
       amount: Amount.default,
       description: "BigMoney Membership - #{current_user.email}",
       currency: 'usd'
     )
 
     flash[:notice] = "Thanks for all the money, #{current_user.email}! Feel free to pay me again."
-    redirect_to :back
-    # redirect_to user_path(current_user)
+    # redirect_to :back
+    redirect_to user_path(current_user)
 
     rescue Stripe::CardError => e
       flash[:alert] = e.message
@@ -35,22 +35,16 @@ class ChargesController < ApplicationController
     }
   end
 
-  def refund
-    customer = Stripe::Customer.create(
-      email: current_user.email,
-      card: params[:stripeToken]
+  def refund 
+    user = current_user
+    charge = Stripe::Charge.retrieve(
+      charge: user.stripe_charge_id
     )
-
-    re = Stripe::Refund.create(
-      customer: customer.id,
-      amount: Amount.default,
-      description: "BigMoney Membership - #{current_user.email}",
-      currency: 'usd'
-    )
+    charge.refund
 
     flash[:notice] = "Sorry to see the money go, #{current_user.email}!"
-    redirect_to :back
-    # redirect_to user_path(current_user)
+    # redirect_to :back
+    redirect_to user_path(current_user)
 
     rescue Stripe::CardError => e
       flash[:alert] = e.message

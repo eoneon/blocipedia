@@ -1,4 +1,2 @@
 <h1><%= @user.username %></h1>
-<% if current_user == @user && @charge != nil  %>
-  <p><%= @charge.id %></p>
-<% end %>
+<p><%= @user.stripe_customer_id %></p>

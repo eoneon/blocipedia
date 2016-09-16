@@ -23,9 +23,11 @@ class ApplicationController < ActionController::Base
   def upgrade_account
     user = current_user
     user.role = :premium
+    user.stripe_charge_id = @charge.id
+    user.stripe_customer_id ||= @customer.id
 
     if user.save
-      flash[:notice] = "Your account has been successfully upgraded to premium! #{@charge.id}"
+      flash[:notice] = "Your account has been successfully upgraded to premium! #{@charge.id} & #{@customer.id}"
     end
   end
 
