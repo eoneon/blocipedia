@@ -1,30 +1,19 @@
 class ChargesController < ApplicationController
-
-  after_action :upgrade_account, only: :create
-  after_action :downgrade_account, only: :refund
-
   def create
-    # create a Stripe Customer object, for associating
-    @customer = Stripe::Customer.create(
-      email: current_user.email,
-      card: params[:stripeToken]
-    )
+    user_upgrade = UserUpgrade.new(current_user, params[:stripeToken])
 
-    @charge = Stripe::Charge.create(
-      customer: @customer.id,
-      amount: Amount.default,
-      description: "BigMoney Membership - #{current_user.email}",
-      currency: 'usd'
-    )
+    if not ChargePolicy.new(current_user, nil).create?
+      flash[:alert] == "You're not allowed to do that"
+      redirect_to :back
+    end
 
-    flash[:notice] = "Thanks for all the money, #{current_user.email}! Feel free to pay me again."
-    # redirect_to :back
-    redirect_to user_path(current_user)
-
-    rescue Stripe::CardError => e
-      flash[:alert] = e.message
+    if user_upgrade.process!
+      flash[:notice] = "thanks for paying"
+      redirect_to user_path(current_user)
+    else
+      flash[:alert] = "something went wrong"
       redirect_to new_charge_path
-
+    end
   end
 
   def new
@@ -33,21 +22,36 @@ class ChargesController < ApplicationController
       description: "BigMoney Membership - #{current_user.username}",
       amount: Amount.default
     }
+
+    if not ChargePolicy.new(user, nil).new?
+      flash[:alert] == "You're not allowed to do that"
+      redirect_to :back
+    end
   end
 
-  def refund 
+  def refund
     user = current_user
-    charge = Stripe::Charge.retrieve(
-      charge: user.stripe_charge_id
-    )
+    charge = Stripe::Charge.retrieve(user.stripe_charge_id)
     charge.refund
 
+    downgrade_account
+
     flash[:notice] = "Sorry to see the money go, #{current_user.email}!"
-    # redirect_to :back
     redirect_to user_path(current_user)
 
-    rescue Stripe::CardError => e
-      flash[:alert] = e.message
-      redirect_to new_refund_path
+  rescue Stripe::CardError => e
+    flash[:alert] = e.message
+    redirect_to new_refund_path
+  end
+
+private
+
+  def downgrade_account
+    user = current_user
+    user.role = :standard
+
+    if user.save
+      flash[:notice] = "Your account has been successfully downgradeed to standard!"
+    end
   end
 end

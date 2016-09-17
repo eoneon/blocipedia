@@ -1,4 +1,4 @@
-class ChargesPolicy
+class ChargePolicy
   attr_reader :user, :charge
 
   def initialize(user, charge)
@@ -8,5 +8,9 @@ class ChargesPolicy
 
   def new?
     @user.role == 'standard'
+  end
+
+  def create?
+    new?
   end
 end

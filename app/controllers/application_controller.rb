@@ -18,26 +18,4 @@ class ApplicationController < ActionController::Base
     redirect_to :back
   end
 
-  private
-
-  def upgrade_account
-    user = current_user
-    user.role = :premium
-    user.stripe_charge_id = @charge.id
-    user.stripe_customer_id ||= @customer.id
-
-    if user.save
-      flash[:notice] = "Your account has been successfully upgraded to premium! #{@charge.id} & #{@customer.id}"
-    end
-  end
-
-  def downgrade_account
-    user = current_user
-    user.role = :standard
-
-    if user.save
-      flash[:notice] = "Your account has been successfully downgradeed to standard!"
-    end
-  end
-
 end
