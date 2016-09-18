@@ -1,4 +1,4 @@
-class WikiPolicy
+class WikiPolicy < ApplicationPolicy
   # alias_method :wiki, :record  # might have order reversed
   attr_reader :wiki, :user
 
