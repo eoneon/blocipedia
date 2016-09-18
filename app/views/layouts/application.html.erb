@@ -19,9 +19,9 @@
           <%= link_to "Sign Out", destroy_user_session_path, method: :delete, :class => 'navbar-link'  %>
         <% end %>
 
-        <% if ChargePolicy.new(current_user, nil).charge? %>
+        <% if ChargePolicy.new(current_user, nil).create? %>
           | <%= link_to "Updgrade to Premium", new_charge_path %>
-        <% elsif ChargePolicy.new(current_user, nil).refund? %>
+        <% elsif not ChargePolicy.new(current_user, nil).create? %>
           | <%= link_to "Downgrade to Standard", refund_path, method: :post %>
         <% end %>
 
