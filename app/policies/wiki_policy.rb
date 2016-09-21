@@ -16,7 +16,11 @@ class WikiPolicy < ApplicationPolicy
   end
 
   def create?
-    @wiki.private == nil || @wiki.private && @user.role == 'premium'
+    @wiki.private == nil || @wiki.private && (@user.role == 'premium' || @user.admin?)
+  end
+
+  def edit?
+    create?
   end
 
   def destroy?

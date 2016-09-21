@@ -10,13 +10,13 @@ class WikisController < ApplicationController
 
   def new
     @wiki = Wiki.new
-    authorize(@wiki)
+    authorize @wiki
   end
 
   def create
     @wiki = Wiki.new(wiki_params)
     @wiki.user = current_user
-    authorize(@wiki)
+    authorize @wiki
 
     if @wiki.save
       flash[:notice] = "Wiki was saved successfully."
@@ -48,7 +48,7 @@ class WikisController < ApplicationController
     @wiki = Wiki.find(params[:id])
 
     # raise Pundit::NotAuthorizedError unless WikiPolicy.new(current_user, @wiki).destroy?
-    authorize(@wiki)
+    authorize @wiki
 
     if @wiki.destroy
       flash[:notice] = "\"#{@wiki.title}\" was deleted successfully."
