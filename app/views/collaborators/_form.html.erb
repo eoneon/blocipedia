@@ -1,0 +1,8 @@
+<%= form_for [@wiki, collaborator] do |f| %>
+  <div class="form-group">
+    <%= f.label :username %>
+    <%= f.collection_select :user_id, new_collaborators(@wiki), :id, :username, class: 'form-control' %>  </div>
+  <div class="form-group">
+    <%= f.submit "Save", class: 'btn btn-success' %>
+  </div>
+<% end %>

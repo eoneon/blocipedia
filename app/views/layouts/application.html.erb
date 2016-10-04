@@ -17,12 +17,13 @@
         <% if user_signed_in? %>
           Signed in as: <strong><%= link_to current_user.username, user_path(current_user) %></strong> <br/>
           <%= link_to "Sign Out", destroy_user_session_path, method: :delete, :class => 'navbar-link'  %>
-        <% end %>
 
-        <% if ChargePolicy.new(current_user, nil).create? %>
-          | <%= link_to "Updgrade to Premium", new_charge_path %>
-        <% elsif not ChargePolicy.new(current_user, nil).create? %>
-          | <%= link_to "Downgrade to Standard", refund_path, method: :post %>
+          <% if ChargePolicy.new(current_user, nil).create? %>
+            | <%= link_to "Updgrade to Premium", new_charge_path %>
+          <% elsif not ChargePolicy.new(current_user, nil).create? %>
+            | <%= link_to "Downgrade to Standard", refund_path, method: :post %>
+          <% end %>
+          
         <% end %>
 
         <% if not user_signed_in? %>
