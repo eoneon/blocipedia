@@ -1,6 +1,6 @@
 <h1>Edit Wiki</h1>
  <div class="row">
-   <div class="col-md-4">
+   <div class="col-md-8">
      <p>Guidelines for wikis</p>
      <ul>
        <li>Fill out all fields</li>
@@ -12,12 +12,11 @@
  </div>
 
  <h3>Remove Collaborators</h3>
-
  <div class="col-md-8">
    <%= render @wiki.collaborators %>
  </div>
 
-<h3>Add Collaborators</h3>
+ <h3>Add Collaborators</h3>
   <div class="col-md-8">
     <%= render partial: 'collaborators/form', locals: { collaborator: @wiki.collaborators.new, users: User.all } %>
   </div>
