@@ -25,6 +25,7 @@ gem 'devise'
 gem 'pundit'
 gem 'stripe'
 gem 'redcarpet'
+gem 'epic-editor-rails'
 
 group :development, :test do
   gem 'byebug'

@@ -7,7 +7,7 @@ class CollaboratorPolicy
   end
 
   def create?
-    @collaborator.wiki.private && @user.role == 'premium'
+    @collaborator.wiki.user == @user && @collaborator.wiki.private && @user.role == 'premium' 
   end
 
   def destroy?

@@ -23,7 +23,7 @@
           <% elsif not ChargePolicy.new(current_user, nil).create? %>
             | <%= link_to "Downgrade to Standard", refund_path, method: :post %>
           <% end %>
-          
+
         <% end %>
 
         <% if not user_signed_in? %>
