@@ -16,3 +16,11 @@
 //= require bootstrap
 //= require 'epiceditor'
 //= require_tree .
+$(document).ready(function(){
+  new EpicEditor({
+    theme: {
+      editor: '<%= asset_path 'editor/epic-light.css' %>',
+      preview: '<%= asset_path 'preview/preview-dark.css' %>'
+    }
+  }).load();
+});
